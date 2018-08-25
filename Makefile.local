@@ -1,0 +1,2 @@
+PACKAGE = go-github-stats
+NAMESPACE = github.com/akerl
