@@ -20,8 +20,8 @@ Quartile boundaries: {{.QuartileBoundaries}}`,
 ))
 
 var userCmd = &cobra.Command{
-	Use:   "user NAME",
-	Short: "Show stats for NAME",
+	Use:   "user [NAME]",
+	Short: "Show stats for user",
 	RunE:  userRunner,
 }
 
@@ -30,10 +30,10 @@ func init() {
 }
 
 func userRunner(cmd *cobra.Command, args []string) error {
-	if len(args) == 0 {
-		return fmt.Errorf("No name given. See --help for syntax")
+	var name string
+	if len(args) > 0 {
+		name = args[0]
 	}
-	name := args[0]
 	user, err := stats.LookupUser(name)
 	if err != nil {
 		return err
