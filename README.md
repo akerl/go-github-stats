@@ -1,11 +1,11 @@
-REPLACE_ME_NAME
+go-github-stats
 =========
 
-[![Build Status](https://img.shields.io/travis/com/akerl/REPLACE_ME_NAME.svg)](https://travis-ci.com/akerl/REPLACE_ME_NAME)
-[![GitHub release](https://img.shields.io/github/release/akerl/REPLACE_ME_NAME.svg)](https://github.com/akerl/REPLACE_ME_NAME/releases)
+[![Build Status](https://img.shields.io/travis/com/akerl/go-github-stats.svg)](https://travis-ci.com/akerl/go-github-stats)
+[![GitHub release](https://img.shields.io/github/release/akerl/go-github-stats.svg)](https://github.com/akerl/go-github-stats/releases)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-green.svg)](https://tldrlegal.com/license/mit-license)
 
-DESC
+Library for reading GitHub contribution stats 
 
 ## Usage
 
@@ -13,4 +13,4 @@ DESC
 
 ## License
 
-REPLACE_ME_NAME is released under the MIT License. See the bundled LICENSE file for details.
+go-github-stats is released under the MIT License. See the bundled LICENSE file for details.
