@@ -1,8 +1,13 @@
 package stats
 
 import (
+	"bytes"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"os"
+	"strconv"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/tcnksm/go-gitconfig"
@@ -18,22 +23,26 @@ const (
 func LookupUser(name string) (User, error) {
 	var err error
 
-	if name == "" {
-		name, err = getUserName()
-		if err != nil {
-			return User{}, err
-		}
+	name, err = getUserName(name)
+	if err != nil {
+		return User{}, err
 	}
+
+	fmt.Println(name)
 
 	return User{}, nil
 }
 
-func getUserName() (string, error) {
-	user, err := gitconfig.GithubUser()
+func getUserName(name string) (string, error) {
+	if name != "" {
+		return name, nil
+	}
+	var err error
+	name, err = gitconfig.GithubUser()
 	if err == nil && user != "" {
 		return user, nil
 	}
-	user := os.GetEnv("USER")
+	user = os.Getenv("USER")
 	if user != "" {
 		return user, nil
 	}
@@ -41,13 +50,13 @@ func getUserName() (string, error) {
 }
 
 func getURL(name string) string {
-	host := os.GetEnv("GITHUB_URL")
+	host := os.Getenv("GITHUB_URL")
 	if host == "" {
 		host = defaultGithubHost
 	}
 	path := fmt.Sprintf(githubPathFormat, name)
 	url := fmt.Sprintf("%s/%s", host, path)
-	return url, nil
+	return url
 }
 
 func getResponse(url string) (string, error) {
@@ -75,9 +84,13 @@ func entryFromDiv(s *goquery.Selection) (Entry, error) {
 	if !ok {
 		return Entry{}, fmt.Errorf("No date found in attr")
 	}
-	score, ok := s.Attr("data-count")
+	scoreStr, ok := s.Attr("data-count")
 	if !ok {
 		return Entry{}, fmt.Errorf("No count found in attr")
+	}
+	score, err := strconv.Atoi(scoreStr)
+	if err != nil {
+		return Entry{}, fmt.Errorf("Could not parse score: %s", scoreStr)
 	}
 
 	date, err := time.Parse(dateFormat, strDate)
@@ -99,14 +112,14 @@ func getContribData(name string) (User, error) {
 	if err != nil {
 		return User{}, err
 	}
-	reader := bytes.NewReader(page)
+	reader := bytes.NewReader([]byte(page))
 	doc, err := goquery.NewDocumentFromReader(reader)
 	if err != nil {
 		return User{}, err
 	}
 
 	divs := doc.Find(".day")
-	el, err := EachWithError(divs, entriesFromDivFunc)
+	el, err := EachWithError(divs, entryFromDiv)
 	if err != nil {
 		return User{}, err
 	}
