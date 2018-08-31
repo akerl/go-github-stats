@@ -67,7 +67,6 @@
     "github.com/PuerkitoBio/goquery",
     "github.com/spf13/cobra",
     "github.com/tcnksm/go-gitconfig",
-    "golang.org/x/net/html",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

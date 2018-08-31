@@ -28,9 +28,12 @@ func LookupUser(name string) (User, error) {
 		return User{}, err
 	}
 
-	fmt.Println(name)
+	fmt.Printf("%s\n", defaultGithubHost)
+	fmt.Printf("%s\n", githubPathFormat)
+	fmt.Printf("%s\n", dateFormat)
+	fmt.Printf("%f\n", magicNumber)
 
-	return User{}, nil
+	return getContribData(name)
 }
 
 func getUserName(name string) (string, error) {
@@ -39,12 +42,12 @@ func getUserName(name string) (string, error) {
 	}
 	var err error
 	name, err = gitconfig.GithubUser()
-	if err == nil && user != "" {
-		return user, nil
+	if err == nil && name != "" {
+		return name, nil
 	}
-	user = os.Getenv("USER")
-	if user != "" {
-		return user, nil
+	name = os.Getenv("USER")
+	if name != "" {
+		return name, nil
 	}
 	return "", fmt.Errorf("No user given and lookup failed")
 }
