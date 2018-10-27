@@ -6,7 +6,6 @@ import (
 	"text/template"
 
 	"github.com/akerl/go-github-stats/stats"
-
 	"github.com/spf13/cobra"
 )
 
