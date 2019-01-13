@@ -28,7 +28,7 @@ func init() {
 	rootCmd.AddCommand(userCmd)
 }
 
-func userRunner(cmd *cobra.Command, args []string) error {
+func userRunner(_ *cobra.Command, args []string) error {
 	var name string
 	if len(args) > 0 {
 		name = args[0]

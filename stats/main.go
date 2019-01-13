@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/tcnksm/go-gitconfig"
+	gitconfig "github.com/tcnksm/go-gitconfig"
 )
 
 const (
@@ -49,7 +49,7 @@ func getUserName(name string) (string, error) {
 	if name != "" {
 		return name, nil
 	}
-	return "", fmt.Errorf("No user given and lookup failed")
+	return "", fmt.Errorf("no user given and lookup failed")
 }
 
 func getURL(name string) string {
@@ -73,7 +73,7 @@ func getResponse(url string) (string, error) {
 		}
 	}()
 	if resp.StatusCode != 200 {
-		return "", fmt.Errorf("Failed loading url %s (%d)", url, resp.StatusCode)
+		return "", fmt.Errorf("failed loading url %s (%d)", url, resp.StatusCode)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -85,15 +85,15 @@ func getResponse(url string) (string, error) {
 func entryFromDiv(s *goquery.Selection) (Entry, error) {
 	strDate, ok := s.Attr("data-date")
 	if !ok {
-		return Entry{}, fmt.Errorf("No date found in attr")
+		return Entry{}, fmt.Errorf("no date found in attr")
 	}
 	scoreStr, ok := s.Attr("data-count")
 	if !ok {
-		return Entry{}, fmt.Errorf("No count found in attr")
+		return Entry{}, fmt.Errorf("no count found in attr")
 	}
 	score, err := strconv.Atoi(scoreStr)
 	if err != nil {
-		return Entry{}, fmt.Errorf("Could not parse score: %s", scoreStr)
+		return Entry{}, fmt.Errorf("could not parse score: %s", scoreStr)
 	}
 
 	date, err := time.Parse(dateFormat, strDate)
