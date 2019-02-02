@@ -20,10 +20,8 @@ const (
 )
 
 // LookupUser loads a user given their name
-func LookupUser(name string) (User, error) {
-	var err error
-
-	name, err = getUserName(name)
+func LookupUser(inputName string) (User, error) {
+	name, err := getUserName(inputName)
 	if err != nil {
 		return User{}, err
 	}
@@ -36,12 +34,11 @@ func LookupUser(name string) (User, error) {
 	return getContribData(name)
 }
 
-func getUserName(name string) (string, error) {
-	if name != "" {
-		return name, nil
+func getUserName(inputName string) (string, error) {
+	if inputName != "" {
+		return inputName, nil
 	}
-	var err error
-	name, err = gitconfig.GithubUser()
+	name, err := gitconfig.GithubUser()
 	if err == nil && name != "" {
 		return name, nil
 	}
